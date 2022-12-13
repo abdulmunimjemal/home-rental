@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} ቤት Felagi: Rent a Home ! {% endblock title %}
+
+{% block content%}
+
+    <!-- the sofa body part -->
+    <div class="sofa">
+      <div class="search-bar-card">
+        <h1>Find Your Perfect Place</h1>
+        <p>Easily & Quickly</p>
+
+        <form class="searh-container" action="{% url 'filter' %}">
+          <img
+            src="{% static 'img/search.svg' %}"
+            role="img"
+            style="width: 20px"
+            alt=""
+            class="search-icon"
+          />
+          <input
+            type="text"
+            placeholder="What are you looking for ? "
+            class="input-field"
+            name="q"
+          />
+          <button type="submit">
+          <img
+            src="{% static 'img/grid.svg' %}"
+            role="img"
+            style="width: 20px"
+            alt=""
+            class="expand-icon"
+          />
+          </button>
+        </form>
+
+        <div class="advance-search"></div>
+      </div>
+    </div>
+
+{% endblock content %}
