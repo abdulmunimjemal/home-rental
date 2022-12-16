@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/own.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
+{% endblock head %}
+
+
+{% block content %}
+    <!-- UPLOAD CONTAINER   -->
+    <div class="upload-continer">
+      <div class="card1">
+        <h1>YOUR POSTS</h1>
+        <button><a href=""> NEW POST</a></button>
+      </div>
+    </div>
+    <!--   POST LIST   -->
+{% for post in posts%}
+    <div class="favorite-container">
+      <a href="{% url 'view' post.pk %}">
+        <div class="favorite-card">
+          <div class="image">
+            <img
+              src="{{ post.photo_1.url }}"
+              alt="house image"
+            />
+          </div>
+          <div class="info">
+            <div class="location">
+              <img src="{% static 'img/location.svg' %}" alt="" />
+              <p>{{ post.address }}, {{ post.town }}, {{ post.region }}</p>
+            </div>
+            <h2>{{ post.title }}</h2>
+            <h2 class="price">{{ post.rental_rate}} ETB</h2>
+          </div>
+        </div>
+      </a>
+      <!-- DELETE AND EDIT POST BUTTON -->
+      <div class="edit-or-delete">
+                <button type="button" class="btn btn-outline-success" data-mdb-ripple-color="dark">
+                &nbsp;Edit&nbsp;
+                </button>
+                <button type="button" class="btn btn-outline-danger" data-mdb-ripple-color="dark" data-mdb-toggle="modal" data-mdb-target="#delete_confirm">
+                Delete
+                </button>
+      </div>
+      <!-- DELETE AND EDIT POST BUTTON -->
+
+<!-- DELETE POST POP-UP -->
+ <div class="modal" id="delete_confirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Post</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body"> Do you want to delete the post <b>{{ post.title }}</b> ?</div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Cancel</button>
+                      <form method="post" action="{% url 'delete' post.pk %}">
+                          {% csrf_token %}
+                      <button type="submit" class="btn btn-primary">Delete</button>
+                      </form>
+                    </div>
+          </div>
+        </div>
+      </div>
+<!-- DELETE POST POP UP -->
+
+{% endfor %}
+</div>
+
+{% endblock content %}

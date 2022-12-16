@@ -2,15 +2,41 @@
 {% load static %}
 {% block title %} ቤት Felagi: Rent a Home ! {% endblock title %}
 
-{% block content%}
+{% block script %}
+$("textarea").keyup(function(event){
+    if(event.keyCode == 13){
+        $("form").submit();
+    }
+});
 
-    <!-- the sofa body part -->
+$("form").on('submit', function(e){
+    e.preventDefault();
+    {% comment %} alert('Problem occured searching. We have informed the team, It will be solved. Try exploring manually.'); {% endcomment %}
+});
+{% endblock script%}
+
+{% block style %}
+.searh-bar-card {
+  width: 35%;
+  height: 30%;
+  background: var(--greay);
+  margin-left: 10em;
+  border: 1.5em var(--greay) solid;
+  border-radius: 1em;
+  font-family: var(--font), sans-serif;
+}
+{% endblock style %}
+
+
+{% block content%}
+<!-- the sofa body part -->
+
     <div class="sofa">
-      <div class="search-bar-card">
+      <form class="searh-bar-card" action="{% url 'filter' %}">
         <h1>Find Your Perfect Place</h1>
         <p>Easily & Quickly</p>
 
-        <form class="searh-container" action="{% url 'filter' %}">
+        <div class="searh-container">
           <img
             src="{% static 'img/search.svg' %}"
             role="img"
@@ -24,19 +50,119 @@
             class="input-field"
             name="q"
           />
-          <button type="submit">
-          <img
-            src="{% static 'img/grid.svg' %}"
-            role="img"
-            style="width: 20px"
-            alt=""
-            class="expand-icon"
-          />
-          </button>
-        </form>
 
-        <div class="advance-search"></div>
+          <img src="{% static 'img/grid.svg' %}" style="width: 20px" alt="" class="expand-icon" />
+        </div>
+
+        <div class="advance-search hidder">
+          <div class="options">
+            <select name="cat">
+              <option value="category">Category</option>
+              <option value="House">House</option>
+              <option value="Apartment">Apartment</option>
+              <option value="Office">Office</option>
+              <option value="Office">Business</option>
+            </select>
+            {% comment %} <select name="size">
+              <option value="Size">Size</option>
+              <option value="Size">1 bed</option>
+              <option value="Size">2 bed</option>
+            </select> {% endcomment %}
+            <select name="loc">
+              <option value="Location">Location</option>
+            </select>
+          </div>
+          <div class="price-container">
+            <h1>Price</h1>
+            <div class="price-bar">
+              <p>3,000 ETB</p>
+              <input name="price"
+                type="range"
+                min="3000"
+                max="50000"
+                value="3000"
+                class="slider"
+                id="myRange"
+              />
+              <p id="demo"></p>
+            </div>
+          </div>
+          <div class="applycontainer">
+            <button class="cancel">Cancel</button>
+            <button class="apply" type="submit">Filter</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="explore">
+      <img src="{% static 'img/explore.svg' %}" class="gotocategories" alt="" />
+    </div>
+
+    <div class="categoreys-continer">
+      <h1>The Service You Get From BETE 👇</h1>
+
+      <div class="categories">
+        <div class="card">
+          <div class="image">
+            <img src="{% static 'img/house.svg' %}" alt="" />
+          </div>
+          <p>HOUSE</p>
+        </div>
+        <div class="card">
+          <div class="image">
+            <img src="{% static 'img/apartment.svg' %}" alt="" />
+          </div>
+          <p>APARTMENT</p>
+        </div>
+        <div class="card">
+          <div class="image">
+            <img src="{% static 'img/office.svg' %}" alt="" />
+          </div>
+          <p>OFFICE</p>
+        </div>
+        <div class="card">
+          <div class="image">
+            <img src="{% static 'img/commercial.svg' %}" alt="" />
+          </div>
+          <p>COMMERCIAL</p>
+        </div>
       </div>
     </div>
+
+    <div class="about-page-container">
+      <h1>ABOUT US</h1>
+      <p>
+        Lorem ipsum dolor sit amet consectetur. Sit massa neque leo non iaculis
+        auctor amet. Cras elit neque vestibulum leo viverra vulputate in.
+        Viverra sed quis nam luctus vulputate aliquet mi ultrices. Donec a
+        pulvinar mauris dapibus magna turpis lacus rhoncus ullamcorper. Neque
+        condimentum massa nec vel. Id aenean diam pretium sit ut et viverra.
+        Lorem ipsum dolor sit amet consectetur. Sit massa neque leo non iaculis
+        auctor amet. Cras elit neque vestibulum leo viverra vulputate in.
+        Viverra sed quis nam luctus vulputate aliquet mi ultrices. Donec a
+        pulvinar mauris dapibus magna turpis lacus rhoncus ullamcorper. Neque
+        condimentum massa nec vel. Id aenean diam pretium sit ut et viverra.
+      </p>
+      <img class="wave" src="{% static 'img/wave.svg' %}" alt="" />
+    </div>
+
+    <div class="footer">
+      <div class="support">
+        <p>Support</p>
+        <p>our customer support is ready to help</p>
+        <p>munim@bete.com</p>
+      </div>
+      <div class="copyright">
+        <p>© 2023 Q-Tech All rights reseved️</p>
+      </div>
+      <div class="phone">
+        <p>Phone</p>
+        <p>every work day 8:00 AM - 5:00 PM</p>
+        <p>+251955665577</p>
+      </div>
+    </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
 
 {% endblock content %}

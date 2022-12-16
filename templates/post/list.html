@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/list.css' %}" />
+{% endblock head %}
+
+{% block title %}
+Explore The Latest Rental Deals
+{% endblock title %}
+
+{% block content %}
+    <!-- LIST VIEW  -->
+
+    <div class="card-container">
+    {% for post in posts reversed %}
+        <div class="card">  <!-- ONE CARD HERE-->
+            <a href="{% url 'view' post.pk %}  ">
+                    <div class="house-image">
+                        <img
+                        src="{{ post.photo_1.url }}"
+                        style="max-height: 11em;"
+                        alt="house image" />
+                    </div>
+
+                    <div class="location">
+                        <img src="{% static 'img/location.svg' %}" alt="" />
+                        <p>{{ post.address }}, {{ post.town }}, {{ post.region }}</p>
+                    </div>
+                <h2> {{ post.title }}</h2>
+            <div class="diteal">
+                <h2>Post Date : {{ post.created_on}}</h2>
+                <h2 class="price">{{ post.rental_rate}} ETB</h2>
+                </div>
+            </a>            
+      </div>
+    {% endfor %}
+
+</div>
+
+{% endblock content %}

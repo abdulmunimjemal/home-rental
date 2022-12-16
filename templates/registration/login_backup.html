@@ -1,0 +1,27 @@
+{% extends 'registration/base_registration.html' %}
+
+{% block title %}
+Login
+{% endblock title %}
+
+
+{% block form %}
+          {{form.as_p}}
+          <form class="login" method="POST">
+          {% csrf_token %}
+              <div class="login__field">
+                  <i class="login__icon fas fa-user"></i>
+                  <input type="email" name="username" class="login__input" placeholder=" Email" autocapitalize="none" autocomplete="email"/>
+              </div>
+              <div class="login__field">
+                  <i class="login__icon fas fa-lock"></i>
+                  <input name="password" type="password" class="login__input" placeholder="Password" />
+              </div> 
+              <p> Forgot your password?</br> <a style="text-decoration: none;" title="Reset Password" href='{% url "password_reset" %}'> Click here to reset. </a> </p>
+              <p> Don't have an account? </br> <a style="text-decoration: none;" title="Create an account" href='{% url "signup" %}'> Click here to signup. </a> </p>
+            <button class="button login__submit">
+              <span class="button__text">Log In</span>
+              <i class="button__icon fas fa-chevron-right"></i>
+            </button>
+          </form>
+{% endblock form %}

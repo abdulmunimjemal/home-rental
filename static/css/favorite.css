@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;700&display=swap");
+
+:root {
+  --blue: #4a99f5;
+  --white: #ffffff;
+  --greay: #f2f2f2;
+  --black: #000000;
+  --shadowblack: #757575;
+
+  --font: "Inter";
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font), sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: var(--black);
+}
+
+.favorite-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10vh;
+  flex-direction: column;
+}
+
+.favorite-container .favorite-card {
+  display: flex;
+  align-items: center;
+  margin-top: 5em;
+  height: 10em;
+  width: 45%;
+  min-width: 40em;
+  background: var(--greay);
+  border: 2px var(--greay) solid;
+  border-radius: 3px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.favorite-container .favorite-card:hover {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  transform: translate(0px, -10px);
+}
+
+.favorite-card .image {
+  width: 15em;
+  height: 10em;
+}
+.favorite-container .image img {
+  width: 100%;
+  height: 100%;
+}
+
+.favorite-container .favorite-card .info {
+  display: flex;
+  flex-direction: column;
+  margin: 0em 0.5em;
+}
+
+.favorite-card .location {
+  display: flex;
+  align-items: center;
+  margin-top: 5%;
+  height: 2em;
+  font-weight: 200;
+  text-transform: uppercase;
+}
+.favorite-card .location p {
+  padding-left: 0.5em;
+}
+
+.favorite-container .favorite-card .info h2 {
+  font-size: 1.2em;
+  font-weight: 400;
+  text-transform: capitalize;
+  padding-left: 1em;
+}
+
+.favorite-container .favorite-card .info h2:nth-child(3) {
+  color: var(--blue);
+  text-transform: uppercase;
+}

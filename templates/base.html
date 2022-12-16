@@ -6,8 +6,21 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
-    <title> {% block title %} ቤት Felagi: Rent a Home ! {% endblock title %} </title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <link rel="icon" type="image/x-icon" href="{% static 'img/logo.svg' %}" />
+    <!-- Font Awesome -->
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+  rel="stylesheet"
+/>
+<!-- MDB -->
+
+    <title> {% block title %} BETE: Rent a Home ! {% endblock title %} </title>
 <style>
 .sofa {
   background-image: url("{% static 'img/sofa.jpg' %}");
@@ -21,20 +34,52 @@
 {% endblock script %}
 </script>
 
+{% block head %}
+{% endblock head %}
+
   </head>
   <body>
+  
+  {% block navbar %}
     <!-- Nav Bar  -->
     <nav class="nav-bar">
+    <a style="text-decoration: none;" href="{% url 'home' %}">
       <div class="logo">
         <img src="{% static 'img/logo.svg' %}" alt="" />
-        <h1>ቤት Felagi.Net</h1>
+        <h1>BETE</h1>
       </div>
+      </a>
       <div class="right-contents">
-       
-       {% if user.is_authenticated %}
-                <div class="signup">
-                  <button> <a href="{% url 'logout' %}" style="color: white; text-decoration: none;"> Logout </a> </button>
+                <div class="signin">
+                  <h1> <a href="{% url 'list' %}" style="color: black; text-decoration: none;"> Browse </a> </h1>
                 </div>
+       {% if user.is_authenticated %}
+            {% if user.user_type == 'seller'  %}
+                <div class="singin">
+              <h1> <a href="{% url 'my_posts' %}" style="color: black; text-decoration: none;"> See Your Posts </a> </h1>
+                </div>
+                <div class="singin">
+              <h1> <a href="{% url 'new' %}" style="color: black; text-decoration: none;"> Create a New Posts </a> </h1>
+                </div>
+            {% elif user.is_superuser %}
+              <div class="singin">
+              <h1> <a href="{% url 'my_posts' %}" style="color: black; text-decoration: none;"> Manage Posts (admin) </a> </h1>
+                </div>
+                <div class="singin">
+              <h1> <a href="{% url 'new' %}" style="color: black; text-decoration: none;"> Create a New Post (admin)</a> </h1>
+                </div>
+
+            {% endif %}
+            <div class="singin">
+                 <h1> <a href="{% url 'fav' %}" style="color: black; text-decoration: none;"> Favorites </a> </h1>
+                </div>
+              <div class="signin">
+                  <h1> <a href="{% url 'logout' %}" style="color: black; text-decoration: none;"> Profile </a> </h1>
+              </div>
+            <div class="signup">
+              <button> <a href="{% url 'logout' %}" style="color: white; text-decoration: none;"> Logout </a> </button>
+            </div>
+
       {% else %}
 
             <div class="singin">
@@ -45,16 +90,20 @@
               <button> <a href="{% url 'signup' %}" style="color: white; text-decoration: none;"> Register </a> </button>
             </div>
 
-      {% endif %}
-
-          <div class="aboutus">
+            <div class="aboutus">
              <h1>ABOUT US</h1>
           </div>
+      {% endif %}
       </div>
     </nav>
+{% endblock navbar %}
 
     {% block content %}
     {% endblock content %}
-
-      </body>
+<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.1/mdb.min.js"
+></script>
+  </body>
 </html>

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+Profile: {{ user.first_name }} ( {{user.email}})
+{% endblock title %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+{% endblock head %}
+{% block content %}
+<!-- 
+        
+       PROFILE PAGE
+    
+    -->
+
+    <div class="profile-container">
+      <div class="profile-card">
+      
+        <a href="{% url 'logout' %}"> Logout </a>
+        <div class="profile-pic">
+          <img
+            src="{{ user.profile.url }}"
+            alt=""
+          />
+          <h2>First Name : <strong>{{ user.first_name }} </strong></h2>
+          <h2>Last Name : <strong> {{ user.last_name }} </strong></h2>
+        </div>
+        <hr />
+        <div class="info">
+          <h2>First Name : <strong>{{ user.first_name }} </strong></h2>
+          <h2>Last Name : <strong> {{ user.last_name }} </strong></h2>
+          <h2>Email : <strong>{{ user.email }}</strong></h2>
+          <h2>Phone : <strong>{{ user.phone }}</strong></h2>
+          <h2>User Type: <strong>{{ user.user_type }}</strong> </h2>
+          <h2>Location: <strong> {{ user.region }}</strong></h2>
+
+        </div>
+        <hr />
+        <div class="change-password-container">
+          <h1>Change Your Password</h1>
+          <form action="">
+            <label for="email">Email</label>
+            <input
+              type="text"
+              name="email"
+              id=""
+              placeholder="type your email"
+            />
+            <button>SUBMIT</button>
+          </form>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

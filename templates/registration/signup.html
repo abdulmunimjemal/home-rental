@@ -4,18 +4,224 @@
 Sign Up
 {% endblock title %}
 
+{% block style %}
+
+.login {
+  width: 380px;
+  padding: 20px;
+  padding-top: 10px;
+}
+
+.login__field {
+  padding: 20px 0px;
+  position: relative;
+}
+
+.login__icon {
+  position: absolute;
+  top: 30px;
+  color: var(--darkblue);
+}
+
+.login__input {
+  border: none;
+  border-bottom: 2px solid var(--greay);
+  background: none;
+  padding: 10px;
+  padding-left: 24px;
+  font-weight: 700;
+  width: 75%;
+  transition: 0.2s;
+}
+
+.login__input::placeholder,
+.login__input:active,
+.login__input:focus,
+.login__input:hover {
+  outline: none;
+  border-bottom-color: var(--darkblue);
+}
+
+.login__submit {
+  background: var(--white);
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 26px;
+  border: 1px solid var(--greay);
+  text-transform: uppercase;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  width: 40%;
+  color: var(--blue);
+  box-shadow: 0px 2px 2px var(--darkblue);
+  cursor: pointer;
+  transition: 0.2s;
+  margin-left: 55%;
+}
+
+.login__submit:active,
+.login__submit:focus,
+.login__submit:hover {
+  border-color: var(--greay);
+  outline: none;
+}
+
+.registraion-text {
+  text-align: center;
+  font-size: 2em;
+  margin-top: -50px;
+
+  color: var(--white);
+}
+
+{% comment %} .errorlist {
+  display: none;
+} {% endcomment %}
+{% endblock style%}
+
+{% block script %}
+
+
+Toastify({
+  text: "This is a toast",
+  duration: 3000,
+  destination: "https://github.com/apvarun/toastify-js",
+  newWindow: true,
+  close: true,
+  gravity: "top", // `top` or `bottom`
+  position: "left", // `left`, `center` or `right`
+  stopOnFocus: true, // Prevents dismissing of toast on hover
+  style: {
+    background: "linear-gradient(to right, #00b09b, #96c93d)",
+  },
+  onClick: function(){} // Callback after click
+}).showToast();
+
+
+{% endblock script %} 
 
 {% block form %}
-          <form class="login" method="POST" action="{% url 'login' %}">
-          {% csrf_token %}
-              
-            {{ form.as_p }}
-            
-              <p> Have an account? <a href='{% url "login" %}' style="text-decoration: none;"> Click here to login. </a> </p>
-            <button class="button login__submit">
-
-              <span class="button__text">Sign Up</span>
-              <i class="button__icon fas fa-chevron-right"></i>
-            </button>
-          </form>
+          <h1 class="registraion-text"> <b> Registration </b></h1>
+          <form class="login-form" method="POST">
+{% csrf_token %}
+<div class="row">
+<div class="col-md-12">
+{% if form.errors %}
+{% for field in form %}
+{% for error in field.errors %}
+<div class="alert alert-danger">
+<strong>{{ error|escape }}</strong>
+{% comment %} <strong>{{ field|escape }}</strong> {% endcomment %}
+</div>
+{% endfor %}
+{% endfor %}
+{% for error in form.non_field_errors %}
+<div class="alert alert-danger">
+<strong>{{ error|escape }}</strong>
+</div>
+{% endfor %}
+{% endif %}
+</div>
+<div class="col-md-6">
+<div class="form-group position-relative">
+<label>First name <span class="text-danger">*</span></label>
+{{form.first_name}}
+</div>
+{% if form.first_name.errors %}
+{% for error in form.first_name.errors %}
+<div class="alert alert-danger">
+<strong>{{ error|escape }}</strong>
+</div>
+{% endfor %}
+{% endif %}
+</div>
+<div class="col-md-6">
+<div class="form-group position-relative">
+<label>Last name <span class="text-danger">*</span></label>
+{{form.last_name}}
+</div>
+{% if form.last_name.errors %}
+{% for error in form.last_name.errors %}
+<div class="alert alert-danger">
+<strong>{{ error|escape }}</strong>
+</div>
+{% endfor %}
+{% endif %}
+</div>
+<div class="col-md-12">
+<div class="form-group position-relative">
+<label>Your Email <span class="text-danger">*</span></label>
+{{form.email}}
+</div>
+{% if form.email.errors %}
+{% for error in form.email.errors %}
+<div class="alert alert-danger">
+<strong>{{ error|escape }}</strong>
+</div>
+{% endfor %}
+{% endif %}
+</div>
+<div class="col-md-12">
+<div class="form-group position-relative">
+<label>Username <span class="text-danger">*</span></label>
+{{form.username}}
+</div>
+{% if form.username.errors %}
+{% for error in form.username.errors %}
+<div class="alert alert-danger">
+<strong>{{ error|escape }}</strong>
+</div>
+{% endfor %}
+{% endif %}
+</div>
+<div class="col-md-12">
+<div class="form-group position-relative">
+<label>Password <span class="text-danger">*</span></label>
+{{form.password1}}
+</div>
+{% if form.password1.errors %}
+{% for error in form.password1.errors %}
+<div class="alert alert-danger">
+<strong>{{ error|escape }}</strong>
+</div>
+{% endfor %}
+{% endif %}
+</div>
+<div class="col-md-12">
+<div class="form-group position-relative">
+<label>Confirm Password <span class="text-danger">*</span></label>
+{{form.password2}}
+</div>
+{% if form.password2.errors %}
+{% for error in form.password2.errors %}
+<div class="alert alert-danger">
+<strong>{{ error|escape }}</strong>
+</div>
+{% endfor %}
+{% endif %}
+</div>
+ <div class="col-md-12">
+<div class="form-group">
+<div class="custom-control">
+{{form.check}}
+<label >I Accept <a href="#" class="text-primary">Terms And Condition</a></label>
+</div>
+{% if form.check.errors %}
+{% for error in form.check.errors %}
+<div class="alert alert-danger">
+<strong>{{ error|escape }}</strong>
+</div>
+{% endfor %}
+{% endif %}
+</div>
+</div>
+<div class="col-md-12">
+<button class="btn btn-primary w-100" type="submit" >Register</button>
+</div>
+<div class="mx-auto">
+<p class="mb-0 mt-3"><small class="text-dark mr-2">Already have an account ?</small> <a href="{% url 'login' %}" class="text-dark font-weight-bold">Sign in</a></p>
+</div>
+</div>
+</form>
 {% endblock form %}

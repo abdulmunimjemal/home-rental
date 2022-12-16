@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/list.css' %}" />
+{% endblock head %}
+
+{% block title %}
+BETE: {{ post.title }}
+{% endblock title %}
+
+{% block content %}
+    <!-- 
+
+        
+        DETAIL View 
+    
+    
+    
+    -->
+
+      <div class="detail-container">
+        <div class="detail-card">
+          <div class="detail-image">
+            <!-- Slideshow container -->
+            <div class="slideshow-container">
+              <!-- Full-width images with number and caption text -->
+              <div class="mySlides fade">
+                <div class="numbertext">1 / 4</div>
+                <img
+                  src="{{ post.photo_1.url }}"
+                  style="width: 100%; max-height: 25em;"
+                />
+                {% comment %} <div class="text">Caption Text</div> {% endcomment %}
+              </div>
+
+              <div class="mySlides fade">
+                <div class="numbertext">2 / 4</div>
+                <img src="{{ post.photo_2.url }}" 
+                style="width: 100%; max-height: 25em;" />
+                {% comment %} <div class="text">Caption Two</div> {% endcomment %}
+              </div>
+
+              <div class="mySlides fade">
+                <div class="numbertext">3 / 4</div>
+                <img
+                  src="{{ post.photo_3.url }}"
+                  style="width: 100%; max-height: 25em;"
+                />
+                {% comment %} <div class="text">Caption Three</div> {% endcomment %}
+              </div>
+
+               <div class="mySlides fade">
+                <div class="numbertext">4 / 4</div>
+                <img
+                  src="{{ post.photo_4.url }}"
+                  style="width: 100%; max-height: 25em;"
+                />
+                {% comment %} <div class="text">Caption Four</div> {% endcomment %}
+              </div>
+
+              <!-- Next and previous buttons -->
+              <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+              <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            </div>
+            <br />
+
+            <!-- The dots/circles -->
+            <div style="text-align: center">
+              <span class="dot" onclick="currentSlide(1)"></span>
+              <span class="dot" onclick="currentSlide(2)"></span>
+              <span class="dot" onclick="currentSlide(3)"></span>
+              <span class="dot" onclick="currentSlide(4)"></span>
+            </div>
+          </div>
+          <div class="location">
+            <img src="{% static 'img/location.svg' %}" alt="" />
+            <p>{{ post.town }}, {{ post.region }}</p>
+          </div>
+
+          <div class="title-and-like">
+            <h2>{{ post.title }}</h2>
+
+            <!-- WHEN BUTTON IS UNLIKED -->
+        <form method="POST" action="{% url 'like' post.pk %}">
+        {% csrf_token %}
+          {% if liked %}
+           <input
+                type="image"
+                name="post_id"
+                value="{{ post.pk }}"
+                alt="like"
+                src="{% static 'img/heartread.svg' %}"
+              />
+          {% else %}
+              <input
+                type="image"
+                name="post_id"
+                value="{{ post.pk }}"
+                alt="like"
+                src="{% static 'img/heart.svg' %}"
+              />
+            {% endif %}
+            </form> 
+
+              <p> {{ number_of_likes }} Likes </p>
+          </div>
+
+          <div class="details">
+            
+            <p>
+              {{ post.body }}
+            </p>
+            <h2>Address: <span>{{ post.address }}  </span> </h2>
+            <h2>Price : <span>{{ post.rental_rate }} ETB</span></h2>
+            <h2>Publised By : <span> {{ post.author.first_name  }} {{post.author.last_name}} </span></h2>
+            <h2>Email : <span> {{ post.author.email }}</span></h2>
+            <h2>Phone : <span> {{ post.author.phone}}</span></h2>
+            <h2>Post Date : <span> {{ post.created_on }}</span></h2>
+          </div>
+          <!-- 
+
+          COMMENT  POST AND READ  
+        
+        
+        -->
+          <div class="comment">
+            <div class="post-comment">
+              <form method="POST">
+              {% csrf_token %}
+                {% comment %} <label for="comment">Post a Comment : </label> {% endcomment %}
+                <input type="text" name="comment" style="height: 6em; width: 80%; border-radius: 2.5%; border-style: none;" placeholder="Your comment" required /> </br>
+                <button type="submit">Post</button>
+              </form>
+            </div>
+
+            <h2>{{ post.comments.all.count }} Comments</h2>
+                {% if post.comments.all.count == 0 %}
+                    
+
+                {% else %}
+             {% for comment in post.comments.all reversed %}
+                    <div class="comment-card">
+                        <div class="comment-info">
+                            <div class="profile-pic">
+                            <img
+                                src="{{ comment.author.profile.url }}"
+                                alt=""
+                            /> 
+                            </div>
+                            <p> {{comment.author.first_name }} {{comment.author.last_name}} | {{ comment.written_on }}</p> 
+                        
+                        </div>
+                        <p>
+                          {{ comment}}
+                        </p>
+                        
+                    </div>
+                {% endfor %}
+                {% endif %}
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <script src="{% static 'js/list.js' %}"></script>
+
+{% endblock content %}
