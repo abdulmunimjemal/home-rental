@@ -30,9 +30,9 @@ Profile: {{ user.first_name }} ( {{user.email}})
         </div>
         <hr />
         <div class="info">
-          <h2>First Name : <strong>{{ user.first_name }} </strong></h2>
+          <h2>First Name : <strong>{{ user.first_name | lower }} </strong></h2>
           <h2>Last Name : <strong> {{ user.last_name }} </strong></h2>
-          <h2>Email : <strong>{{ user.email }}</strong></h2>
+          <h2>Email : <strong style='text-transform: lowercase;'>{{ user.email }}</strong></h2>
           <h2>Phone : <strong>{{ user.phone }}</strong></h2>
           <h2>User Type: <strong>{{ user.user_type }}</strong> </h2>
           <h2>Location: <strong> {{ user.region }}</strong></h2>

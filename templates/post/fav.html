@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head%}
+    <link rel="stylesheet" href="{% static 'css/favorite.css' %}" />
+    
+{% endblock head %}
+
+{% block title %}
+BETE: Liked Posts
+{% endblock title %}
+
+{% block content %}
+    <!-- 
+        
+        FAVORITE LIST 
+    
+    -->
+{% for post in posts reversed %}
+    <div class="favorite-container">
+      <a href="{% url 'view' post.pk %}">
+        <div class="favorite-card">
+          <div class="image">
+            <img
+              src="{{ post.photo_1.url }}"
+              alt="house image"
+            />
+          </div>
+          <div class="info">
+            <div class="location">
+              <img src="{% static 'img/location.svg' %}" alt="" />
+              <p>{{ post.address }}, {{ post.town }}, {{ post.region }}</p>
+            </div>
+            <h2>{{ post.title }}</h2>
+            <h2 class="price">{{ post.rental_rate}} ETB</h2>
+          </div>
+        </div>
+      </a>
+{% endfor %}
+    </div>
+{% endblock content %}

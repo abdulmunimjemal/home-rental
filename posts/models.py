@@ -42,6 +42,7 @@ class Post(models.Model):
         ('apartment', 'አፓርታማ'),
         ('condominium', 'ኮንዶሚኒየም'),
         ('office', 'ቢሮ'),
+        ('other', 'ሌላ')
     ]
     category = models.CharField(max_length=50, choices=CAT)
     rental_rate = models.IntegerField()
@@ -64,7 +65,7 @@ class Post(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('detail', args=[str(self.id)])
+        return reverse('view', args=[str(self.id)])
 
     
 class Comment(models.Model):

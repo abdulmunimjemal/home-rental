@@ -1,4 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.1/mdb.min.css"
+  rel="stylesheet"
+/>
+{% endblock head %}
 
 {% block style %}
 .divider:after,
@@ -19,7 +27,6 @@ height: 100%;
 {% endblock style %}
 
 {% block script %}
-
 {% if user.is_authenticated %}
 function Redirect() 
     {  
@@ -29,23 +36,15 @@ function Redirect()
     window.alert("You are already logged in. Logout first. You will be redirected to the home page now."); 
 
 {% endif %}
-
 {% endblock script %}
-{% block head %}
-<link
-  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.1/mdb.min.css"
-  rel="stylesheet"
-/>
-{% endblock head%}
+
 {% block content %}
-
-
 <section class="vh-100">
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-md-9 col-lg-6 col-xl-5">
-        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-          class="img-fluid" alt="Sample image">
+        <img src="{% static 'img/login.webp' %}"
+          class="img-fluid" alt="Login Image">
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
         <form method='POST' action="{% url 'login' %}">
@@ -117,6 +116,5 @@ function Redirect()
       </div>
     </div>
   </div>
- 
 </section>
 {% endblock content %}

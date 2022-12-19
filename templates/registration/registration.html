@@ -1,18 +1,27 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block style %}
 @media (min-width: 1025px) {
 .h-custom {
 height: 100vh !important;
 }
 }
+
+h1 {
+  margin: auto;
+  {% comment %} margin-top: 0; {% endcomment %}
+  font-weight: bold;
+}
+
 {% endblock style %}
 {% block head %}
 <link
   href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.1/mdb.min.css"
   rel="stylesheet"
 />
-{% endblock head%}
+{% endblock head %}
+
+
 {% block content %}
 
 
@@ -146,7 +155,7 @@ height: 100vh !important;
               </div>
               <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
 
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                <img src="{% static 'img/signup.webp' %}"
                   class="img-fluid" alt="Sample image">
 
               </div>

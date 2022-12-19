@@ -3,9 +3,11 @@ from django.views.generic import ListView, DetailView, DeleteView, UpdateView, C
 from .models import Post, Comment
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.http import HttpResponseRedirect
-
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .forms import NewPostForm
+from django.contrib import messages
+
 
 from environs import Env # some constanrs are there
 env = Env()
@@ -21,7 +23,7 @@ class AdsListView(ListView):
 
 class FavPostsView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
-        template = 'post/list.html'
+        template = 'post/fav.html'
         posts = Post.objects.all()
         favorites = []
         for post in posts:
@@ -35,16 +37,19 @@ class FavPostsView(View, LoginRequiredMixin):
     
 class PostLikeAction(View, LoginRequiredMixin):
     def post(self, request, *args, **kwargs):
-        post = get_object_or_404(Post, pk=kwargs['pk'])
-        if post.likes.filter(id=self.request.user.id).exists():
-            post.likes.remove(self.request.user)
+        if self.request.user.is_authenticated:
+            post = get_object_or_404(Post, pk=kwargs['pk'])
+            if post.likes.filter(id=self.request.user.id).exists():
+                post.likes.remove(self.request.user)
+            else:
+                post.likes.add(self.request.user)
+            
+            return HttpResponseRedirect(reverse('view', args=[str(post.id)]))
         else:
-            post.likes.add(self.request.user)
-        
-        return HttpResponseRedirect(reverse('view', args=[str(post.id)]))
+            return HttpResponseRedirect(reverse('login'))
 
     def get(self, request, *args, **kwargs):
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('list'))
 
 
 class OwnPostsView(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -138,7 +143,7 @@ class AdsDetailView(View):
 
 class AdsCreateView(LoginRequiredMixin, CreateView, UserPassesTestMixin):
     model = Post
-    template_name = 'posts/new.html'
+    template_name = 'post/new.html'
     fields = ['title', 'address', 'town', 'region', 'category', 'body', 'rental_rate', 'photo_1', 'photo_2', 'photo_3', 'photo_4']
     
     def form_valid(self, form):
@@ -148,8 +153,40 @@ class AdsCreateView(LoginRequiredMixin, CreateView, UserPassesTestMixin):
     def test_func(self):
         obj = self.get_object()
         return ('seller' == self.request.user.user_type) or (True == self.request.user.is_superuser)
-    
-    
+
+
+def newpost(request):
+    template = 'post/new.html'
+
+    if request.user.is_authenticated:
+        if request.user.user_type != 'buyer':
+            if request.method == 'GET':
+                form = NewPostForm(user=request.user)
+                context = {
+                    'form': form,
+                }
+                return render(request, template, context)
+
+            if request.method == 'POST':
+                form = NewPostForm(request.POST, request.FILES, user=request.user)
+                if form.is_valid():
+                    form.save()
+                    success_message = f'It has been posted successfully.'
+                    messages.success(request, success_message)
+                    return redirect('my_posts')
+                else:
+                    print("INVALID FORM")
+                    messages.error(request, 'Error Processing Your Request')
+                    context = {
+                        'form': form
+                    }
+                    return render(request, template, context)
+        else:
+            return HttpResponseForbidden()
+    else:
+        return redirect('login')
+
+    return render(request, template, {})
     
 
 class CategoryFilterView(View):

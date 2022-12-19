@@ -2,9 +2,14 @@
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/own.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.1/mdb.min.css"
+  rel="stylesheet"
+/>
+<link
+  rel="stylesheet" 
+  href="{% static 'css/own.css' %}" 
+/>
 {% endblock head %}
 
 
@@ -13,14 +18,14 @@
     <div class="upload-continer">
       <div class="card1">
         <h1>YOUR POSTS</h1>
-        <button><a href=""> NEW POST</a></button>
+        <button><a href="{% url 'new' %}"> NEW POST</a></button>
       </div>
     </div>
     <!--   POST LIST   -->
-{% for post in posts%}
-    <div class="favorite-container">
+{% for post in posts reversed %}
+    <div class="favorite-container" >
       <a href="{% url 'view' post.pk %}">
-        <div class="favorite-card">
+        <div class="favorite-card" style="margin-top: 0px;">
           <div class="image">
             <img
               src="{{ post.photo_1.url }}"
@@ -38,9 +43,9 @@
         </div>
       </a>
       <!-- DELETE AND EDIT POST BUTTON -->
-      <div class="edit-or-delete">
-                <button type="button" class="btn btn-outline-success" data-mdb-ripple-color="dark">
-                &nbsp;Edit&nbsp;
+      <div class="edit-or-delete" style="margin-bottom: 0px;">
+                <button type="button" class="btn btn-outline-success" data-mdb-ripple-color="dark"> <a href="{% url 'edit' post.pk %}">
+                &nbsp;Edit&nbsp; </a>
                 </button>
                 <button type="button" class="btn btn-outline-danger" data-mdb-ripple-color="dark" data-mdb-toggle="modal" data-mdb-target="#delete_confirm">
                 Delete

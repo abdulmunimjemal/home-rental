@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+  <head> 
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,7 +18,12 @@
   href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
   rel="stylesheet"
 />
-<!-- MDB -->
+
+   <script
+      src="https://cdn.tiny.cloud/1/01clhmfsqn1avgrpqczxoba5aj0u9qgo2elvn2hoaklirg5u/tinymce/6/tinymce.min.js"
+      referrerpolicy="origin">
+    </script>
+
 
     <title> {% block title %} BETE: Rent a Home ! {% endblock title %} </title>
 <style>
@@ -46,53 +51,141 @@
     <a style="text-decoration: none;" href="{% url 'home' %}">
       <div class="logo">
         <img src="{% static 'img/logo.svg' %}" alt="" />
-        <h1>BETE</h1>
+        <h1 style="margin-bottom: 1em; font-weight: bold; line-weight: 1.5em; margin-top: 1.1em;">BETE</h1>
       </div>
       </a>
-      <div class="right-contents">
-                <div class="signin">
-                  <h1> <a href="{% url 'list' %}" style="color: black; text-decoration: none;"> Browse </a> </h1>
-                </div>
+
+      <!-- TIME TO MAKE TEH ACTIVE TAB STAND-OUT, LET US FIRST NAME THE URLS FOR CONVENIENCE -->
+      {% url 'list' as list %}
+      {% url 'my_posts' as my_posts %}
+      {% url 'new' as new %}
+      {% url 'fav' as fav %}
+      {% url 'profile' as profile %}
+      {% url 'login' as login %}
+      {% url 'signup' as signup %}
+      {% url 'home' as home %}
+      <!-- END NAMING -->
+ 
+    <div class="right-contents">
+          {% if request.path == list %}
+          <div class="signup">
+              <button> <a href="{% url 'list' %}" style="color: white; text-decoration: none;"> Browse </a> </button>
+            </div>
+                
+          {% else %}
+              <div class="signin">
+                <h1> <a href="{% url 'list' %}" style="color: black; text-decoration: none;"> Browse </a> </h1>
+              </div>
+          {% endif %}
+  
        {% if user.is_authenticated %}
             {% if user.user_type == 'seller'  %}
-                <div class="singin">
-              <h1> <a href="{% url 'my_posts' %}" style="color: black; text-decoration: none;"> See Your Posts </a> </h1>
-                </div>
-                <div class="singin">
-              <h1> <a href="{% url 'new' %}" style="color: black; text-decoration: none;"> Create a New Posts </a> </h1>
-                </div>
+
+                  {% if request.path == my_posts %}
+                      <div class="signup">
+                          <button> <a href="{% url 'my_posts' %}" style="color: white; text-decoration: none;"> See Your Posts </a> </button>
+                      </div>
+
+                    {% else %}
+                        <div class="signin">
+                            <h1> <a href="{% url 'my_posts' %}" style="color: black; text-decoration: none;"> See Your Posts </a> </h1>
+                        </div>
+                    {% endif %}
+                  
+                  {% if request.path == new %}
+                      <div class="signup">
+                          <button> <a href="{% url 'new' %}" style="color: white; text-decoration: none;"> Create a New Post </a> </button>
+                      </div>
+
+                    {% else %}
+                        <div class="signin">
+                            <h1> <a href="{% url 'new' %}" style="color: black; text-decoration: none;"> Create a New Post </a> </h1>
+                        </div>
+                    {% endif %}
             {% elif user.is_superuser %}
-              <div class="singin">
-              <h1> <a href="{% url 'my_posts' %}" style="color: black; text-decoration: none;"> Manage Posts (admin) </a> </h1>
-                </div>
-                <div class="singin">
-              <h1> <a href="{% url 'new' %}" style="color: black; text-decoration: none;"> Create a New Post (admin)</a> </h1>
-                </div>
+              {% if request.path == my_posts %}
+                      <div class="signup">
+                          <button> <a href="{% url 'my_posts' %}" style="color: white; text-decoration: none;"> See Your Posts (ADMIN) </a> </button>
+                      </div>
+
+                    {% else %}
+                        <div class="signin">
+                            <h1> <a href="{% url 'my_posts' %}" style="color: black; text-decoration: none;"> See Your Posts (ADMIN)</a> </h1>
+                        </div>
+                    {% endif %}
+                  
+                  {% if request.path == new %}
+                      <div class="signup">
+                          <button> <a href="{% url 'new' %}" style="color: white; text-decoration: none;"> Create a New Post (ADMIN)</a> </button>
+                      </div>
+
+                    {% else %}
+                        <div class="signin">
+                            <h1> <a href="{% url 'new' %}" style="color: black; text-decoration: none;"> Create a New Post (ADMIN)</a> </h1>
+                        </div>
+                    {% endif %}
 
             {% endif %}
-            <div class="singin">
-                 <h1> <a href="{% url 'fav' %}" style="color: black; text-decoration: none;"> Favorites </a> </h1>
-                </div>
-              <div class="signin">
-                  <h1> <a href="{% url 'logout' %}" style="color: black; text-decoration: none;"> Profile </a> </h1>
-              </div>
-            <div class="signup">
-              <button> <a href="{% url 'logout' %}" style="color: white; text-decoration: none;"> Logout </a> </button>
+
+                  {% if request.path == fav %}
+                      <div class="signup">
+                          <button> <a href="{% url 'fav' %}" style="color: white; text-decoration: none;">  Favorites </a> </button>
+                      </div>
+
+                    {% else %}
+                        <div class="signin">
+                            <h1> <a href="{% url 'fav' %}" style="color: black; text-decoration: none;"> Favorites </a> </h1>
+                        </div>
+                    {% endif %}
+
+                  {% if request.path == profile %}
+                      <div class="signup">
+                          <button> <a href="{% url 'profile' %}" style="color: white; text-decoration: none;">  Profile </a> </button>
+                      </div>
+
+                    {% else %}
+                        <div class="signin">
+                            <h1> <a href="{% url 'profile' %}" style="color: black; text-decoration: none;"> Profile </a> </h1>
+                        </div>
+                    {% endif %}
+
+
+            <div class="signin">
+              <h1> <a href="{% url 'logout' %}" style="color: white; text-decoration: none;"> Logout </a> </h1>
             </div>
+
+
 
       {% else %}
+          {% if request.path == login %}
+                      <div class="signup">
+                          <button> <a href="{% url 'login' %}" style="color: white; text-decoration: none;">  Login </a> </button>
+                      </div>
 
-            <div class="singin">
-              <h1> <a href="{% url 'login' %}" style="color: black; text-decoration: none;"> Log In </a> </h1>
-            </div>
+          {% else %}
+                        <div class="signin">
+                            <h1> <a href="{% url 'login' %}" style="color: black; text-decoration: none;"> Login </a> </h1>
+                        </div>
+            {% endif %}
 
-            <div class="signup">
-              <button> <a href="{% url 'signup' %}" style="color: white; text-decoration: none;"> Register </a> </button>
-            </div>
 
-            <div class="aboutus">
-             <h1>ABOUT US</h1>
-          </div>
+             {% if request.path == signup %}
+                      <div class="signup">
+                          <button> <a href="{% url 'signup' %}" style="color: white; text-decoration: none;">  Register </a> </button>
+                      </div>
+
+              {% else %}
+                        <div class="signin">
+                            <h1> <a href="{% url 'signup' %}" style="color: black; text-decoration: none;"> Register </a> </h1>
+                        </div>
+            {% endif %}
+
+             {% if request.path == home %}
+                        <div class="aboutus">
+                          <h1>About Us</h1>
+                        </div>
+            {% endif %}
+            
       {% endif %}
       </div>
     </nav>

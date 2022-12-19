@@ -69,7 +69,7 @@ class CustomUser(AbstractUser):
     
     # def get_absolute_url(self):
     #     return reverse('login')
-
+    about_me = models.CharField(max_length=500, null=True, blank=True)
     def __str__(self):
         return self.email
     

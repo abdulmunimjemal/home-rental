@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/new.css' %}" />
+{% endblock head %}
+
+   {% block script %}
+      tinymce.init({
+        selector: "textarea#editor",
+        height: 300,
+      });
+    {% endblock script %}
+
+    {% block title %} Upload Page {% endblock title%}
+  
+
+  {% block content %}
+    <!--
+
+        UPLOAD CONTAINER 
+
+
+    -->
+    <h1 class="create-post">Create a New Post</h1>
+
+    <div class="upload-container">
+      <div class="upload-card">
+        <form method='POST' enctype="multipart/form-data">
+            <label for="title"> Title <input type="text" name="title" placeholder="Add a Title" /> </label>
+            <label for="editor">description</label> <textarea name="description" id="editor" cols="30" rows="10"></textarea>
+            <label for="image"> Image <input type="file" multiple name="image" /></label>
+            <label for="category"> Catagory <select name="catagory" id="category"> 
+                                              <option value="jimma">Catagory</option>
+                                              <option value="jimma">Catagory</option>
+                                            </select>
+            </label>
+
+            <label for="region"> Region
+              <select name="region" id="region">
+                <option value="jimma">Oromia</option>
+              </select>
+            </label>
+
+            <label for="address"> Address <input type="text" name="address" placeholder="Address" /> </label>
+            <label for="town">Town <input type="text" name="town" placeholder="Town" /> </label>
+                {% csrf_token %}
+            <button type="submit"> POST </button>
+        </form>
+
+
+      </div>
+    </div>
+
+{% endblock content %}
